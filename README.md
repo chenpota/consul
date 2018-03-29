@@ -15,7 +15,7 @@ $ ./bin/run-consul-server.sh
 # DNS query
 
 ```
-$ dig @localhost -p 8600 consul.service.consul
+$ dig @localhost -p 8600 <service-name>.service.consul
 ```
 
 # API
@@ -34,6 +34,6 @@ Return all the services that are registered with the local agent.
 
 Register a service.
 
-### PUT /v1/agent/service/deregister/<service-id>
+### PUT /v1/agent/service/deregister/SERVICE-ID
 
 Deregister a service.
