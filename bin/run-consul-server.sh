@@ -2,6 +2,6 @@
 
 docker pull consul
 
-docker stop dev-consul -t0
+docker stop consul-server -t0
 
-docker run --rm --network=host -d --name=dev-consul consul
+docker run --rm --network=host -d --name=consul-server consul
