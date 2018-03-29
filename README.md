@@ -20,6 +20,20 @@ $ dig @localhost -p 8600 consul.service.consul
 
 # API
 
-## GET /v1/agent/monitor?loglevel=debug
+## agent
+
+### GET /v1/agent/monitor?loglevel=debug
 
 This endpoint streams logs from the local agent until the connection is closed.
+
+### GET /v1/agent/services
+
+Return all the services that are registered with the local agent.
+
+### PUT /v1/agent/service/register
+
+Register a service.
+
+### PUT /v1/agent/service/deregister/<service-id>
+
+Deregister a service.
