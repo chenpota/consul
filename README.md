@@ -4,18 +4,46 @@
 $ ./bin/run-consul-server.sh
 ```
 
-[consul](https://hub.docker.com/_/consul/)
+Default HTTP port is 8500.  
+Consul agent is installed to every host and it is a first-class cluster participant. So servers don’t need to know discovery address in our network, all requests to discovery are processed to local address 127.0.0.1.
+
+[docker-consul](https://hub.docker.com/_/consul/)
 
 # Run consul client
 
 ## python-client
 
-* After stop consul server, client will not re-register to consul server.
-
 # DNS query
 
 ```
 $ dig @localhost -p 8600 <service-name>.service.consul
+```
+
+# [GliderLabs Registrator](https://github.com/gliderlabs/registrator)
+
+Service registry bridge for Docker.
+
+```
+$ docker run --rm \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    --network host \
+    -d gliderlabs/registrator \
+    -internal consul://localhost:8500
+
+$ docker run --rm \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    -d gliderlabs/registrator \
+    -ip <ip-address> \
+    consul://<ip-address>:8500
+```
+
+```
+$ docker run --rm \
+    -p 12344:12345 \
+    -e "SERVICE_NAME=myweb" \
+    -e "SERVICE_CHECK_HTTP=/healthcheck" \
+    -e "SERVICE_CHECK_INTERVAL=10s" \
+    -d <docker-image>
 ```
 
 # API
@@ -37,3 +65,53 @@ Register a service.
 ### PUT /v1/agent/service/deregister/SERVICE-ID
 
 Deregister a service.
+
+## catalog
+
+### GET /v1/catalog/datacenters
+
+Return the list of all known datacenters.
+
+### GET /v1/catalog/nodes?dc=DATA-CENTER-ID
+
+Return the nodes registered in a given datacenter.
+
+### GET /v1/catalog/node/NODE-ID?dc=DATA-CENTER-ID
+
+Return the node's registered services.
+
+### GET /v1/catalog/services?dc=DATA-CENTER-ID
+
+Return the services registered in a given datacenter.
+
+### GET /v1/catalog/service/SERVICE-ID?dc=DATA-CENTER-ID
+
+Return the nodes providing a service in a given datacenter.
+
+## health
+
+### GET /v1/health/node/NODE-ID?dc=DATA-CENTER-ID
+
+Return the checks specific to the node provided on the path.
+
+### GET /v1/health/checks/SERVICE-ID?dc=DATA-CENTER-ID
+
+Return the checks associated with the service provided on the path.
+
+### GET /v1/health/service/SERVICE-ID?dc=DATA-CENTER-ID
+
+Return the nodes providing the service indicated on the path.
+
+## KV store
+
+### PUT /v1/kv/.../KEY
+
+Create or update /.../key.
+
+### GET /v1/kv/.../KEY
+
+Read /.../key.
+
+### DELETE /v1/kv/.../KEY
+
+Delete /.../key.
