@@ -108,10 +108,22 @@ Return the nodes providing the service indicated on the path.
 
 Create or update /.../key.
 
-### GET /v1/kv/.../KEY
+### GET /v1/kv/.../KEY?raw
 
 Read /.../key.
 
 ### DELETE /v1/kv/.../KEY
 
 Delete /.../key.
+
+### PUT /v1/kv/.../FOLDER/
+
+Create or update /.../folder/.
+
+### GET /v1/kv/.../FOLDER/?keys
+
+Read /.../folder/.
+
+### DELETE /v1/kv/.../FOLDER/
+
+Delete /.../folder/.
