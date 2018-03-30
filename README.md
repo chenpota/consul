@@ -19,33 +19,6 @@ Consul agent is installed to every host and it is a first-class cluster particip
 $ dig @localhost -p 8600 <service-name>.service.consul
 ```
 
-# [GliderLabs Registrator](https://github.com/gliderlabs/registrator)
-
-Service registry bridge for Docker.
-
-```
-$ docker run --rm \
-    -v /var/run/docker.sock:/tmp/docker.sock \
-    --network host \
-    -d gliderlabs/registrator \
-    -internal consul://localhost:8500
-
-$ docker run --rm \
-    -v /var/run/docker.sock:/tmp/docker.sock \
-    -d gliderlabs/registrator \
-    -ip <ip-address> \
-    consul://<ip-address>:8500
-```
-
-```
-$ docker run --rm \
-    -p 12344:12345 \
-    -e "SERVICE_NAME=myweb" \
-    -e "SERVICE_CHECK_HTTP=/healthcheck" \
-    -e "SERVICE_CHECK_INTERVAL=10s" \
-    -d <docker-image>
-```
-
 # API
 
 ## agent
@@ -127,3 +100,34 @@ Read /.../folder/.
 ### DELETE /v1/kv/.../FOLDER/
 
 Delete /.../folder/.
+
+# [GliderLabs Registrator](https://github.com/gliderlabs/registrator)
+
+Service registry bridge for Docker.
+
+```
+$ docker run --rm \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    --network host \
+    -d gliderlabs/registrator \
+    -internal consul://localhost:8500
+
+$ docker run --rm \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    -d gliderlabs/registrator \
+    -ip <ip-address> \
+    consul://<ip-address>:8500
+```
+
+```
+$ docker run --rm \
+    -p 12344:12345 \
+    -e "SERVICE_NAME=myweb" \
+    -e "SERVICE_CHECK_HTTP=/healthcheck" \
+    -e "SERVICE_CHECK_INTERVAL=10s" \
+    -d <docker-image>
+```
+
+# Prometheus
+
+# Grafana
