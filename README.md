@@ -101,6 +101,12 @@ Read /.../folder/.
 
 Delete /.../folder/.
 
+## status
+
+### GET /v1/status/leader
+
+Return the Raft leader for the datacenter in which the agent is running.
+
 # [GliderLabs Registrator](https://github.com/gliderlabs/registrator)
 
 Service registry bridge for Docker.
