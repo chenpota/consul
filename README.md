@@ -9,6 +9,34 @@ Consul agent is installed to every host and it is a first-class cluster particip
 
 [docker-consul](https://hub.docker.com/_/consul/)
 
+| ENV-VAR               | DESCRIPTIONS                          |
+|:----------------------|:------------------------------------- |
+| CONSUL_BIND_INTERFACE | The network interface to bind          |
+
+# Run consul cluster
+
+```
+    192.168.10.10               192.168.10.11
++---------------+ eth0     eth0 +--------------+
+| consul-server |---------------| server-agent |
++---------------+               +--------------+
+
+# consul-server
+$ docker run --rm \
+    --network host \
+    --name=consul-server \
+    -e CONSUL_BIND_INTERFACE=eth0 \
+    -d consul
+
+# server-agent
+$ docker run --rm \
+    --network host \
+    --name=server-agent \
+    -e CONSUL_BIND_INTERFACE=eth0 \
+    -d consul \
+    agent -join=192.168.10.10
+```
+
 # Run consul client
 
 ## python-client
