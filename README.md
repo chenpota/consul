@@ -13,28 +13,77 @@ Consul agent is installed to every host and it is a first-class cluster particip
 |:----------------------|:------------------------------------- |
 | CONSUL_BIND_INTERFACE | The network interface to bind          |
 
-# Run consul cluster
+# Run multiple servers in a data center
 
 ```
-    192.168.10.10               192.168.10.11
-+---------------+ eth0     eth0 +---------------------+
-| consul-server |---------------| consul-client-agent |
-+---------------+               +---------------------+
+172.17.0.2   172.17.0.3   172.17.0.4
++---------+  +---------+  +---------+
+| server1 |  | server2 |  | server3 |
++---------+  +---------+  +---------+
+ eth0|        eth0|        eth0|
+     |            |            |
+     +------------+------------+
 
-# consul-server
+# server1
+$ docker run --rm \
+    --name=server1 \
+    -e CONSUL_BIND_INTERFACE=eth0 \
+    -ti consul \
+    agent \
+        -node=server1 -server -client 0.0.0.0 -ui \
+        -bootstrap-expect=3 \
+        -retry-join="172.17.0.2" -retry-join="172.17.0.3" -retry-join="172.17.0.4"
+
+# server2
+$ docker run --rm \
+    --name=server2 \
+    -e CONSUL_BIND_INTERFACE=eth0 \
+    -ti consul \
+    agent \
+        -node=server2 -server -client 0.0.0.0 -ui \
+        -bootstrap-expect=3 \
+        -retry-join="172.17.0.2" -retry-join="172.17.0.3" -retry-join="172.17.0.4"
+
+# server3
+$ docker run --rm \
+    --name=server3 \
+    -e CONSUL_BIND_INTERFACE=eth0 \
+    -ti consul \
+    agent \
+        -node=server3 -server -client 0.0.0.0 -ui \
+        -bootstrap-expect=3 \
+        -retry-join="172.17.0.2" -retry-join="172.17.0.3" -retry-join="172.17.0.4"
+```
+
+# Run a server an a client in a data center
+
+```
+192.168.10.11   192.168.10.10
+  +--------+      +--------+
+  | server |      | client |
+  +--------+      +--------+
+   eth0|           eth0|
+       +---------------+
+
+# server1
 $ docker run --rm \
     --network host \
-    --name=consul-server \
+    --name=server \
     -e CONSUL_BIND_INTERFACE=eth0 \
-    -d consul
+    -ti consul \
+    agent \
+        -node=server -server -client 0.0.0.0 -ui \
+        -bootstrap-expect=1
 
-# consul-client-agent
+# server2
 $ docker run --rm \
     --network host \
-    --name=consul-client-agent \
+    --name=client \
     -e CONSUL_BIND_INTERFACE=eth0 \
-    -d consul \
-    agent -join=192.168.10.10
+    -ti consul \
+    agent \
+        -node=client -ui \
+        -join=192.168.10.11
 ```
 
 # Run consul client
