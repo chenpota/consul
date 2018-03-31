@@ -17,9 +17,9 @@ Consul agent is installed to every host and it is a first-class cluster particip
 
 ```
     192.168.10.10               192.168.10.11
-+---------------+ eth0     eth0 +--------------+
-| consul-server |---------------| server-agent |
-+---------------+               +--------------+
++---------------+ eth0     eth0 +---------------------+
+| consul-server |---------------| consul-client-agent |
++---------------+               +---------------------+
 
 # consul-server
 $ docker run --rm \
@@ -28,10 +28,10 @@ $ docker run --rm \
     -e CONSUL_BIND_INTERFACE=eth0 \
     -d consul
 
-# server-agent
+# consul-client-agent
 $ docker run --rm \
     --network host \
-    --name=server-agent \
+    --name=consul-client-agent \
     -e CONSUL_BIND_INTERFACE=eth0 \
     -d consul \
     agent -join=192.168.10.10
