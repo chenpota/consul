@@ -18,8 +18,8 @@ def main():
         interval='10s',
         tags=['webserver', ],
         httpcheck='http://127.0.0.1:12345/healthcheck',
-        #address='localhost',
-        #port=23456,
+        address='127.0.0.1',
+        port=12345,
     )
 
     app.run(host='0.0.0.0', port=12345)

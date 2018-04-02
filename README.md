@@ -65,7 +65,7 @@ $ docker run --rm \
    eth0|           eth0|
        +---------------+
 
-# server1
+# server
 $ docker run --rm \
     --network host \
     --name=server \
@@ -75,7 +75,7 @@ $ docker run --rm \
         -node=server -server -client 0.0.0.0 -ui \
         -bootstrap-expect=1
 
-# server2
+# client
 $ docker run --rm \
     --network host \
     --name=client \
@@ -211,6 +211,8 @@ $ docker run --rm \
     -d <docker-image>
 ```
 
-# Prometheus
+# Prometheus + Grafana
 
-# Grafana
+[docker-prometheus](https://hub.docker.com/r/prom/prometheus/)
+
+[docker-Grafana](https://hub.docker.com/r/grafana/grafana/)
