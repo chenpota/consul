@@ -214,5 +214,5 @@ $ docker run --rm \
 # Prometheus + Grafana
 
 [docker-prometheus](https://hub.docker.com/r/prom/prometheus/)
-
+[docker-consul_exporter](https://github.com/prometheus/consul_exporter)
 [docker-Grafana](https://hub.docker.com/r/grafana/grafana/)

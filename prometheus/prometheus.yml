@@ -32,3 +32,7 @@ scrape_configs:
     consul_sd_configs:
       - server: 'localhost:8500'
         services: []
+
+  - job_name: 'consul-exporter'
+    static_configs:
+      - targets: ['localhost:9107']
