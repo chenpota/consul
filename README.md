@@ -55,7 +55,7 @@ $ docker run --rm \
         -retry-join="172.17.0.2" -retry-join="172.17.0.3" -retry-join="172.17.0.4"
 ```
 
-# Run a server an a client in a data center
+# Run a server and a client in a data center
 
 ```
 192.168.10.11   192.168.10.10
